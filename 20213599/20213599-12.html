@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>计算器</title>
+  <style type="text/css">
+		body
+		{
+			text-align:center; 
+		}
+		div#bdiv
+		{
+			border:0px solid rgba(0,0,0,0);
+			border-top: 2px solid black;
+			width:100%;
+		}
+		div
+		{
+			width:360px;
+			margin:auto;
+			border:2px solid black;
+		}
+		input
+		{ 
+			border:outset 2px solid ; 
+			width:70px;  
+			height:50px; 
+			font-size:40px; 
+			margin:10px;
+			color:rgb(50,250,0); 
+			background-color:rgb(100,100,100); 
+			border-radius:10px;
+			cursor:pointer; 
+		}
+		.ainput
+		{
+			width:340px;
+			margin:0px;
+			border:none;
+			text-align:right;
+			border-radius:0px;
+			color:black;
+			background-color:rgba(0,0,0,0);
+		}
+		div#cdiv
+		{
+			border:0px solid rgba(0,0,0,0);
+			border-top: 2px solid black;
+			width:100%;
+		}
+  </style>
+ </head>
+ <body>
+ <div id="adiv" class="">
+    <input type="number" value="" id= "jsqput" class="ainput" step="0.01">
+	<input type="text" id= "dinput" class="ainput" maxlength="5">
+ </div>
+  <script> 
+	var data,
+		m=0,
+		e;
+	kkk();
+  function kkk()
+  {
+	if (m==0)
+	{
+		wonc();
+	}
+	if (m==1)
+	{
+		document.getElementById("bdiv").style.display="none";
+		danc();
+	}
+	if (m%2==1&&m!=1)
+	{
+		document.getElementById("bdiv").style.display="none";
+		document.getElementById("cdiv").style.display="block";
+	}
+	if (m%2==0&&m!=0)
+	{
+		document.getElementById("bdiv").style.display="block";
+		document.getElementById("cdiv").style.display="none";
+	}
+  }
+  function wonc()
+  {
+	var jsq = ['ac','<-','%','/','7','8','9','*','4','5','6','-','1','2','3','+','变','0','.','='] ;
+	var bdiv = document.createElement('div') ;
+	for	(var i=0; i < jsq.length / 4; i++)
+		{  
+			 for (var j=0; j<4; j++ )
+			 { 
+				if (i * 4 + j < jsq.length) 
+				{  
+					var input = document.createElement('input') ;  
+					input.type = "button" ;
+				    input.value = jsq[i * 4 + j] ;
+					input.onclick = function(e)
+					{
+						if (this.value=="变")
+						{
+								m=m+1;
+								kkk();
+						}
+						func(this.value);
+						console.log('click');
+						console.log(e);
+						e.target.blur();//去掉button的焦点
+<!-- 					document.onkeypress = function(e) 
+						{
+							e.preventDefault();//阻止键盘的默认行为（解决键盘回车触发button按钮onclick事件） -->
+				 		}
+					};				
+					bdiv.appendChild(input) ;	
+				}
+			 }
+			bdiv.id="bdiv";
+			adiv.appendChild(bdiv);
+		}
+  }
+	function danc()
+	{
+		var cdiv = document.createElement('div') ;
+		var jsq =  ['ac','<-','%','/','7','8','9','*','4','5','6','-','1','2','3','+','变','0','.','=','sin','cos','tan','lg','ln','(',')','e'] ;
+		for	(var i=0; i < jsq.length / 4; i++)
+			{  
+				 for (var j=0; j<4; j++ )
+				 { 
+					if (i * 4 + j < jsq.length) 
+					{  
+						var winput = document.createElement('input') ;  
+						winput.type = "button" ;
+						winput.value = jsq[i * 4 + j] ;
+						winput.onclick = function(e)
+						{
+							if (this.value=="变")
+							{
+								m=m+1;
+								kkk();
+							}
+							func(this.value);
+							console.log('click');
+							console.log(e);
+							e.target.blur();//去掉button的焦点
+					<!--	document.onkeypress = function(e) 
+							{
+								e.preventDefault();//阻止键盘的默认行为（解决键盘回车触发button按钮onclick事件）
+							} -->
+						}
+						cdiv.appendChild(winput) ;	
+					}
+				 }
+			}
+			 cdiv.id="cdiv";
+			 adiv.appendChild(cdiv);
+		}
+	document.body.onkeydown=function()
+	{
+		if (event.keyCode==13)
+		{
+			cb='=';
+			func(cb);
+		}
+	}
+	function func(data){
+		var nata=dinput.value.substring(0,1);
+		var a=jsqput.value;
+		if (data=='ac')
+		{
+			a=a.substring(0,0);
+			jsqput.value=a;
+			dinput.value=a;
+		}
+		else if (data=='=')
+		{
+			a=a.substring(0,a.length);
+			var result;
+			try
+			{
+			result=eval(a);//计算结果
+			result=result.toFixed(3);
+			}
+			catch (err)
+			{
+			result=err;
+			}
+			dinput.value="=" + result;
+			nata="=";
+		}
+		else if (nata=='=' && (data=='+' || data=='-' || data=='*' || data=='/' || data=='%'))
+		{
+			jsqput.value=eval(jsqput.value)+data;
+			a=a.substring(0,0);
+			dinput.value=a;
+		}
+		else if (data=='变')
+		{
+			a=a.substring(0,a.length-1);
+			jsqput.value=a;
+		}
+		else if (data=='<-')
+		{
+			a=a.substring(0,a.length-1);
+			jsqput.value=a;
+		}
+		else 
+		{
+			document.getElementById("jsqput").value += data;
+		}
+		}
+		dinput.onkeypress = function(e) 
+			{
+				e.preventDefault();//阻止键盘的默认行为（解决键盘回车触发button按钮onclick事件）
+			}
+  </script>
+ </body>
+</html>
