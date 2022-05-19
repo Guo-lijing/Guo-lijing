@@ -128,9 +128,20 @@
 					{
 						var a=output.value;
 						var result;
+						var b;
 						try
 						{
-							result=eval(a);		//计算结果
+							result=eval(a);//计算结果
+							b=result;
+							b=b.toFixed(0);
+							if((result-b)!=0)
+								{
+									result=result.toFixed(3);
+								}
+							else
+								{
+									result=result;
+								}
 						}
 						catch (err)
 						{
