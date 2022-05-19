@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+			 <style type="text/css">
+				body
+				{
+					text-align:center;
+				}
+				input
+				{
+					color:red;
+					background-color:orange;
+					font-size:38px;
+					cursor:pointer;/* 光标 */
+					box-shadow:4px 3px rgba(255,140,0,0.6);/* 阴影 */
+					border-radius:25px;/* 边框半径 */
+					width:60px;
+					height:60px;
+					margin:15px;
+				}
+				input:hover
+				{
+					border:outset;/* 边框凸起 */
+					box-shadow:8px 6px rgba(255,140,0,0.8);
+				}
+				input:active
+				{
+					border:inset;/* 边框凹陷 */
+					box-shadow:4px 3px rgba(255,140,0,0.8);
+				}
+				input#output
+				{
+					width:330px;
+					height:40px;
+					box-shadow:none;
+					text-align:right;
+					margin:0px;
+					background-color:rgba(0,0,0,0);
+					border:none;
+				}
+				input#xs
+				{
+					background-color:rgba(0,0,0,0);
+					width:330px;
+					height:40px;
+					box-shadow:none;
+					border:none;
+					text-align:right;
+					margin:0px;
+					
+				}
+				div
+				{
+					border:2px solid red;
+					width:380px;
+					margin:auto;
+				}
+				div#abox
+				{
+					border-bottom:0px solid red;
+				}
+			 </style>
+		<title>计算器</title>
+	</head>
+	<body >
+		<div id="abox" class="">
+			<input type="text" value="" id="output" >
+			<input type="text" value="" id="xs" >
+		</div>
+		<script type="text/javascript">
+			var box=['AC','%','<X','/','7','8','9','*','4','5','6','-','1','2','3','+','00','0','.','=','(',')','x²','x½'];
+			var i,j,m=0,e;
+			var div=document.createElement('div');		//创建盒子
+			for(i=0;i<box.length/4;i++)		//行
+				{
+							
+					for(j=0;j<4;j++,m++)	//列
+						{
+							{
+								var input=document.createElement('input');	//创建input标签
+								input.type="button";	//input类型
+								input.value=box[i*4+j];		//input名称
+								if(box[m]=="AC")
+									{
+										input.id="AC";
+									}
+								else if(box[m]=="<X")
+									{
+										input.id="X";
+									}
+								else if(box[m]=="=")
+									{
+										input.id="enter";
+									}
+								else if(box[m]=="x½")
+									{
+										input.id="kx";
+									}
+								else if(box[m]=="x²")
+									{
+										input.id="px";
+									}
+								else if(box[m]=="ch")
+									{
+										input.id="ch";
+									};
+										//input的id
+								input.onclick=function(e)	//input触发的事件
+										{
+											output.value+=e.target.value;//显示输入内容
+											e.target.blur();
+										};
+								div.appendChild(input);		//显示input
+							}
+						}
+					document.body.appendChild(div);		//显示div
+				}
+			var inputs=document.querySelectorAll('input');		//获取所有input，形成数组
+			AC.onclick=function()	//执行清零
+					{
+						var a=output.value;
+						a=a.substring(0,0);
+						output.value=a;
+						xs.value=a;
+					}
+			enter.onclick=function()	//执行计算
+					{
+						var a=output.value;
+						var result;
+						try
+						{
+							result=eval(a);		//计算结果
+						}
+						catch (err)
+						{
+							result=err;
+						}
+						xs.value=result;	//显示结果
+					}
+			X.onclick=function()	//执行删除
+					{
+						var a=output.value;
+						a=a.substring(0,a.length-1);
+						output.value=a;
+						xs.value=a.substring(0,0);
+					}
+			kx.onclick=function()
+				{
+					var a=output.value;
+					a=Math.sqrt(a);
+					xs.value=a;
+				}
+			px.onclick=function()
+				{
+					var a=output.value;
+					a=a*a;
+					xs.value=a;
+					
+				}
+			document.addEventListener("keydown",function (e)
+					{
+						
+						if(e.keyCode=="13")
+							{
+								re(document.getElementById('output').value);
+							}
+						else if(e.keyCode=="8")
+							{
+								bs(document.getElementById('output').value);
+							}
+					},false);
+			function re(out)
+					{
+						var a=out;
+						var result;
+						try
+						{
+							result=eval(out);
+						}
+						catch (err)
+						{
+							result=err;
+						}
+						xs.value=result;
+					}
+			function bs(out)
+					{
+						var a=out;
+						a=a.substring(0,a.length-1);
+						output.value=a;
+						xs.value=a.substring(0,0);
+					}
+			xs.onkeypress=function(e)
+					{
+						e.preventDefault();
+					}
+		</script>
+	</body>
+	
+</html>
