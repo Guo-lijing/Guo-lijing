@@ -9,8 +9,8 @@
 				}
 				input
 				{
-					color:red;
-					background-color:orange;
+					color:rgba(255,0,0,0.8);
+					background-color:rgba(255,140,0,0.6);
 					font-size:38px;
 					cursor:pointer;/* 光标 */
 					box-shadow:4px 3px rgba(255,140,0,0.6);/* 阴影 */
@@ -29,17 +29,17 @@
 					border:inset;/* 边框凹陷 */
 					box-shadow:4px 3px rgba(255,140,0,0.8);
 				}
-				input#output
+				input#output	/* 输入显示框样式 */
 				{
 					width:330px;
 					height:40px;
-					box-shadow:none;
+					box-shadow:none;	
 					text-align:right;
 					margin:0px;
 					background-color:rgba(0,0,0,0);
 					border:none;
 				}
-				input#xs
+				input#xs	/* 答案显示框样式 */
 				{
 					background-color:rgba(0,0,0,0);
 					width:330px;
@@ -55,6 +55,7 @@
 					border:2px solid red;
 					width:380px;
 					margin:auto;
+					border-radius:25px;
 				}
 				div#abox
 				{
@@ -81,35 +82,50 @@
 								var input=document.createElement('input');	//创建input标签
 								input.type="button";	//input类型
 								input.value=box[i*4+j];		//input名称
-								if(box[m]=="AC")
+								if(box[m]=="AC")	//功能按键赋予id名称
 									{
-										input.id="AC";
+										input.id="AC";	//清零键
 									}
 								else if(box[m]=="<X")
 									{
-										input.id="X";
+										input.id="X";	//删除键
 									}
 								else if(box[m]=="=")
 									{
-										input.id="enter";
+										input.id="enter";	//计算键
 									}
 								else if(box[m]=="x½")
 									{
-										input.id="kx";
+										input.id="kx";	//开根键
 									}
 								else if(box[m]=="x²")
 									{
-										input.id="px";
+										input.id="px";	//平方键
 									}
-								else if(box[m]=="ch")
+								else if(box[m]=="+")
 									{
-										input.id="ch";
+										input.id="plus";	//加号键
+									}
+								else if(box[m]=="-")	
+									{
+										input.id="redu";	//减号键
+									}
+								else if(box[m]=="*")
+									{
+										input.id="ride";	//乘号键
+									}
+								else if(box[m]=="/")
+									{
+										input.id="exc";	//除号键
+									}
+								else if(box[m]=="%")
+									{
+										input.id="per";	//百分号键
 									};
-										//input的id
 								input.onclick=function(e)	//input触发的事件
 										{
 											output.value+=e.target.value;//显示输入内容
-											e.target.blur();
+											e.target.blur();	//去除最后点击的焦点
 										};
 								div.appendChild(input);		//显示input
 							}
@@ -131,12 +147,12 @@
 						var b;
 						try
 						{
-							result=eval(a);//计算结果
+							result=eval(a);	//计算结果
 							b=result;
 							b=b.toFixed(0);
-							if((result-b)!=0)
+							if((result-b)!=0)	//判断小数
 								{
-									result=result.toFixed(3);
+									result=result.toFixed(3);	//若为小数，取后三位
 								}
 							else
 								{
@@ -156,38 +172,153 @@
 						output.value=a;
 						xs.value=a.substring(0,0);
 					}
-			kx.onclick=function()
-				{
-					var a=output.value;
-					a=Math.sqrt(a);
-					xs.value=a;
-				}
-			px.onclick=function()
-				{
-					var a=output.value;
-					a=a*a;
-					xs.value=a;
-					
-				}
+			plus.onclick=function() //加号运算时
+					{
+						if(xs.value!="")
+							{
+								output.value=xs.value;	//继承上一次计算结果
+							}
+						output.value+=this.value;
+						xs.value="";
+					}
+			redu.onclick=function()	//减号运算时
+					{
+						if(xs.value!="")
+							{
+								output.value=xs.value;	//继承上一次计算结果
+							}
+						output.value+=this.value;
+						xs.value="";
+					}
+			ride.onclick=function()	//乘号运算时
+					{
+						if(xs.value!="")
+							{
+								output.value=xs.value;	//继承上一次计算结果
+							}
+						output.value+=this.value;
+						xs.value="";
+					}
+			exc.onclick=function()	//除号运算时
+					{
+						if(xs.value!="")
+							{
+								output.value=xs.value;	//继承上一次计算结果
+							}
+						output.value+=this.value;
+						xs.value="";
+					}
+			per.onclick=function()	//百分号运算时
+					{
+						var a=output.value;
+						var b;						
+						a=eval(a);
+						b=a.toFixed(0)
+						if(a-b!=0)	//判断小数
+							{
+								output.value=a.toFixed(3);	//保留三位小数
+							}
+						else
+							{
+								output.value=a;
+							}
+						a=a/100;
+						b=a;
+						b=b.toFixed(0);
+						if(a-b!=0)	//判断小数
+							{
+								a=a.toFixed(3);	//保留三位小数
+							}
+						else
+							{
+								a=a;
+							}
+						xs.value=a;
+					}
+			kx.onclick=function()	//开根运算时
+					{
+						var a=output.value;
+						var b;
+						a=eval(a);
+						if(xs.value!="")
+							{
+								output.value=xs.value;	//持续开根
+								a=Math.sqrt(xs.value);
+							}
+						else
+							{
+								output.value=a;	//首次开根
+								a=Math.sqrt(a);
+							}
+						b=a;
+						b=b.toFixed(0);
+						if(a-b!=0)	//判断小数
+							{
+								a=a.toFixed(3);	//保留三位小数
+							}
+						else
+							{
+								a=a;
+							}	
+						xs.value=a;
+					}
+			px.onclick=function()	//平方运算时
+					{
+						var a=output.value;	
+						var b;
+						a=eval(a);
+						if(xs.value!="")
+							{
+								output.value=xs.value;	//持续平方
+								a=xs.value*xs.value;
+							}
+						else
+							{
+								output.value=a;	//首次平方
+								a=a*a;
+							}
+						b=a;
+						b=b.toFixed(0);
+						if(a-b!=0)	//判断小数
+							{
+								a=a.toFixed(3);	//保留三位小数
+							}
+						else
+							{
+								a=a;
+							}
+						xs.value=a;
+					}
 			document.addEventListener("keydown",function (e)
 					{
 						
-						if(e.keyCode=="13")
+						if(e.keyCode=="13")	//使用键盘上回车键
 							{
 								re(document.getElementById('output').value);
 							}
-						else if(e.keyCode=="8")
+						else if(e.keyCode=="8")	//使用键盘上删除键
 							{
 								bs(document.getElementById('output').value);
 							}
 					},false);
-			function re(out)
+			function re(out)	//回车键执行计算
 					{
 						var a=out;
 						var result;
+						var b;
 						try
 						{
 							result=eval(out);
+							b=result;
+							b=b.toFixed(0);
+							if((result-b)!=0)	//判断小数
+								{
+									result=result.toFixed(3);	//若为小数，取后三位
+								}
+							else
+								{
+									result=result;
+								}
 						}
 						catch (err)
 						{
@@ -195,18 +326,17 @@
 						}
 						xs.value=result;
 					}
-			function bs(out)
+			function bs(out)	//删除键执行单次删除
 					{
 						var a=out;
 						a=a.substring(0,a.length-1);
 						output.value=a;
 						xs.value=a.substring(0,0);
 					}
-			xs.onkeypress=function(e)
+			xs.onkeypress=function(e)	//答案显示框禁止输入
 					{
 						e.preventDefault();
 					}
 		</script>
 	</body>
-	
 </html>
