@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>四级词汇</title>
+  <style>
+    a {
+      display: block;
+      margin: 10px;
+    }
+    .fd {
+      width: 1400px;
+    }
+    .md {
+      margin: auto;
+      padding: 25px;
+    }
+    .md h1 {
+      text-align: center;
+    }
+    #td{
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div class="fd">
+  <div class="md">
+    <h1>
+      四级词汇大全
+    </h1>
+  </div>
+  <p>
+    先处理文件<br>
+    cd /d/guoLijing/text //进入四级词汇文件所在目录<br>
+    cut -d '/' -f1 cet6.txt //剪切出文件单词部分<br>
+    grep '^a' cet6.txt | wc//查看各字母开头的单词数<br>
+    ...<br>
+    grep '^z' cet6.txt | wc<br>
+  </p>
+  <div id="td">
+    <a href="cet6.txt">
+      全部词汇及音标
+    </a>
+    <p>
+      s开头是其中最多的单词
+    </p>
+    <a href="s.txt">
+      S
+    </a>
+    <p>
+      x开头是其中最少的单词
+    </p>
+    <a href="x.txt">
+      X
+    </a>
+  </div>
+</div>
+</body>
+</html>
